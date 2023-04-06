@@ -37,7 +37,7 @@ Change string path, string file path, and path under int main()
 Run the script from Visual Studio or compile it as an app and run it. 
 
 To compile it, launch Visual Studio's Developer Command Prompt for VS 
-Navigate to the directory with the .cpp file 
+and navigate to the directory with the .cpp file 
 Enter: cl /EHsc dir_code.cpp
 
 ## Help
