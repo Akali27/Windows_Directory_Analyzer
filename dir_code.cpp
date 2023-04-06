@@ -1,6 +1,5 @@
 //Link Necessary Libraries 
 #pragma comment(lib, "advapi32.lib")
-
 //Libraries 
 #include <iostream>
 #include <windows.h>
@@ -52,9 +51,9 @@ void dir_a()
             {   //Print File Size (bytes)
                 cout << data.nFileSizeLow << " bytes";
             }
-            //Print Date & Time of Last Modification
+            //Print File Creation Date & Time 
             cout << " ";
-            print_time(data.ftLastWriteTime);
+            print_time(data.ftCreationTime);
             cout << endl;
 
             //Continue to Next File or Directory 
@@ -85,7 +84,7 @@ void dir_s(string path)
                     cout << path + "\\" + data.cFileName << " ";
                     cout << "<DIR>";
                     cout << " ";
-                    print_time(data.ftLastWriteTime);
+                    print_time(data.ftCreationTime);
                     cout << endl;
                     
                     //Recurse Through Subdirectories 
@@ -94,11 +93,11 @@ void dir_s(string path)
             }
             else
             {
-                //Print File Name, Size (bytes), Date & Time of Last Modification
+                //Print File Name, Size (bytes), File Creation Date & Time 
                 cout << path + "\\" + data.cFileName << " ";
                 cout << data.nFileSizeLow << " bytes";
                 cout << " ";
-                print_time(data.ftLastWriteTime);
+                print_time(data.ftCreationTime);
                 cout << endl;
             }
             //Continue to Next File or Directory 
@@ -184,9 +183,9 @@ void dir_q()
             }
         }
 
-        //Print Date & Time of Last Modification
+        //Print File Creation Date & Time 
         cout << " ";
-        print_time(data.ftLastWriteTime);
+        print_time(data.ftCreationTime);
 
         cout << endl;
 
@@ -214,7 +213,7 @@ int main()
     dir_q();
     cout << endl;
 
-    //Pause & Wait for User Input Before Exiting
+    //Wait for User Input Before Exiting
     system("pause");
 
     //Print 0 for Successful Execution
