@@ -7,7 +7,9 @@ dir /q
 
 ## Description
 
-On a Windows terminal, the dir command returns a list of a directory's files and subdirectories. The options
+On a Windows terminal, the dir command returns a list of a directory's files and subdirectories. 
+
+Dir Options:
 
 /a: Prints all files and directories, including hidden ones. 
 
