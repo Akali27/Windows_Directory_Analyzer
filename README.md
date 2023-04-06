@@ -30,7 +30,7 @@ for dir /s:
 Change path under int main() 
 
 for dir /q: 
-Change string path (keep *.*), string file path, and path under int main()
+Change string path, string file path, and path under int main()
 
 ### Executing program
 
