@@ -46,11 +46,6 @@ Make sure to keep #pragma comment(lib, "advapi32.lib") which links necessary lib
 
 Traverse directories you have permissions for or update the app to add more privileges. 
 
-## Authors
-
-Ahmed Ali 
-ak_ali27@yahoo.com
-
 ## Acknowledgments
 
 Thanks to Gordon Long, adjunct professor at GMU, for pushing his students to challenge themselves. 
