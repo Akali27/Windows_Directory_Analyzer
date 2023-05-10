@@ -1,8 +1,11 @@
-# Dir in C++
+# Windows dir in C++
 
 This is a C++ script that returns the equivalent results of the Windows commands: 
+
 dir /a 
+
 dir /s 
+
 dir /q
 
 ## Description
