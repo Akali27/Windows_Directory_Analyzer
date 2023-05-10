@@ -10,15 +10,23 @@
 
 using namespace std;
 
+// Function to get the path from the user
+string get_user_path() {
+    string path;
+    cout << "Please enter the path: ";
+    getline(cin, path);
+    return path;
+}
+
 //Handle Time Conversion
 void print_time(FILETIME ft)
 {
     //Convert File Time to Local File Time
-    FILETIME local_ft; 
+    FILETIME local_ft;
     FileTimeToLocalFileTime(&ft, &local_ft);
 
     //Convert Local File Time to System Time 
-    SYSTEMTIME st; 
+    SYSTEMTIME st;
     FileTimeToSystemTime(&local_ft, &st);
 
     //Use MM/DD/YYYY HH:MM:SS to Print Date & Time
@@ -26,123 +34,128 @@ void print_time(FILETIME ft)
         st.wMonth, st.wDay, st.wYear, st.wHour, st.wMinute, st.wSecond);
 }
 
-//Return Equivelant of dir /a  
-void dir_a()
+// Return equivalent of dir /a
+void dir_a(const string& path)
 {
     WIN32_FIND_DATAA data;
     HANDLE hFind;
-    string path = "C:\\Program Files\\Common Files\\*";
-    hFind = FindFirstFileA(path.c_str(), &data);
+    string searchPath = path + "\\*"; // Add a wildcard to search for all files and folders
+    hFind = FindFirstFileA(searchPath.c_str(), &data);
 
-    // Loop Through Directory & Recurse Through Subdirectories 
+    // Loop through directory and recurse through subdirectories
     if (hFind != INVALID_HANDLE_VALUE)
     {
         do
-        {   //Print Existing Files & Directories 
+        {
+            // Print existing files and directories
             cout << data.cFileName << " ";
 
-            //Determine Type 
+            // Determine type
             if (data.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY)
-            {   
-                //Attach <DIR> Next to Directories
+            {
+                // Attach <DIR> next to directories
                 cout << "<DIR>";
             }
             else
-            {   //Print File Size (bytes)
+            {
+                // Print file size (bytes)
                 cout << data.nFileSizeLow << " bytes";
             }
-            //Print File Creation Date & Time 
+            // Print file creation date and time
             cout << " ";
             print_time(data.ftCreationTime);
             cout << endl;
 
-            //Continue to Next File or Directory 
+            // Continue to next file or directory
         } while (FindNextFileA(hFind, &data) != 0);
 
         FindClose(hFind);
     }
 }
 
-//Return Equivelant of dir /s
-void dir_s(string path)
+
+// Return equivalent of dir /s
+void dir_s(const string& path)
 {
     WIN32_FIND_DATAA data;
     HANDLE hFind;
     hFind = FindFirstFileA((path + "\\*").c_str(), &data);
 
-    // Loop Through Directory & Recurse Through Subdirectories
+    // Loop through directory and recurse through subdirectories
     if (hFind != INVALID_HANDLE_VALUE)
     {
         do
-        {   //Determine Type
+        {
+            // Determine type
             if (data.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY)
             {
-                //Avoid Directories that Begin with "." and ".."
+                // Avoid directories that begin with "." and ".."
                 if (strcmp(data.cFileName, ".") != 0 && strcmp(data.cFileName, "..") != 0)
                 {
-                    // Print Name, <DIR> for Directories, Date & Time 
+                    // Print name, <DIR> for directories, date and time
                     cout << path + "\\" + data.cFileName << " ";
                     cout << "<DIR>";
                     cout << " ";
                     print_time(data.ftCreationTime);
                     cout << endl;
-                    
-                    //Recurse Through Subdirectories 
+
+                    // Recurse through subdirectories
                     dir_s(path + "\\" + data.cFileName);
                 }
             }
             else
             {
-                //Print File Name, Size (bytes), File Creation Date & Time 
+                // Print file name, size (bytes), file creation date and time
                 cout << path + "\\" + data.cFileName << " ";
                 cout << data.nFileSizeLow << " bytes";
                 cout << " ";
                 print_time(data.ftCreationTime);
                 cout << endl;
             }
-            //Continue to Next File or Directory 
+            // Continue to next file or directory
         } while (FindNextFileA(hFind, &data) != 0);
 
         FindClose(hFind);
     }
 }
 
-//Return Equivelant of dir /q
-void dir_q()
+
+// Return equivalent of dir /q
+void dir_q(const string& path)
 {
-    string path = "C:\\Users\\Ed\\Desktop\\SysInternalsSuite\\*.*";
+    string searchPath = path + "\\*.*";
     WIN32_FIND_DATAA data;
     HANDLE hFind;
     HANDLE hFile = INVALID_HANDLE_VALUE;
 
-    //Search Files and Directories 
-    hFind = FindFirstFileA(path.c_str(), &data);
+    // Search files and directories
+    hFind = FindFirstFileA(searchPath.c_str(), &data);
     if (hFind == INVALID_HANDLE_VALUE) {
-        //List Errors
+        // List errors
         cerr << "Error: " << GetLastError() << endl;
         return;
     }
 
-    //Iterate Through Files & Directories  
+    // Iterate through files and directories
     do {
         string fileName = data.cFileName;
-        //Avoid Directories that Begin with "." and ".."
+        // Avoid directories that begin with "." and ".."
         if (fileName == "." || fileName == "..") {
             continue;
         }
 
-        //Path
-        string filePath = "C:\\Users\\Ed\\Desktop\\SysInternalsSuite\\" + fileName;
-        //Open File 
+        // Path
+        string filePath = path + "\\" + fileName;
+        // Open file
         hFile = CreateFileA(filePath.c_str(), GENERIC_READ, FILE_SHARE_READ, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
         if (hFile == INVALID_HANDLE_VALUE) {
             cerr << "Error: " << GetLastError() << endl;
             continue;
         }
-        //Return File Size 
+        // Return file size
         DWORD dwSize = GetFileSize(hFile, NULL);
 
-        //Print File Name, Size (bytes)
+        // Print file name, size (bytes)
         cout << data.cFileName << " ";
         if (data.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) {
             cout << "<DIR>";
@@ -151,17 +164,17 @@ void dir_q()
             cout << dwSize << " bytes";
         }
 
-        // Retrieve File Security Descriptor 
+        // Retrieve file security descriptor
         PSECURITY_DESCRIPTOR pSD = NULL;
         DWORD dwRes = GetSecurityInfo(hFile, SE_FILE_OBJECT, OWNER_SECURITY_INFORMATION, NULL, NULL, NULL, NULL, &pSD);
         if (dwRes == ERROR_SUCCESS)
         {
-            // Retrieve File Owner SID
+            // Retrieve file owner SID
             PSID pOwnerSid = NULL;
             BOOL bOwnerDefaulted = FALSE;
             if (GetSecurityDescriptorOwner(pSD, &pOwnerSid, &bOwnerDefaulted) == TRUE)
             {
-                // Retrieve Account Name for SID
+                // Retrieve account name for SID
                 TCHAR szAccountName[MAX_PATH];
                 DWORD cchAccountName = MAX_PATH;
                 TCHAR szDomainName[MAX_PATH];
@@ -173,17 +186,17 @@ void dir_q()
                     basic_string<TCHAR> ownerAccountName(szAccountName, cchAccountName);
                     basic_string<TCHAR> ownerDomainName(szDomainName, cchDomainName);
 
-                    // Convert TCHAR Strings to Readable Strings
+                    // Convert TCHAR strings to readable strings
                     string ownerAccountNameStr(ownerAccountName.begin(), ownerAccountName.end());
                     string ownerDomainNameStr(ownerDomainName.begin(), ownerDomainName.end());
 
-                    // Print File Owner Name
+                    // Print file owner name
                     cout << " " << ownerDomainNameStr << "\\" << ownerAccountNameStr;
                 }
             }
         }
 
-        //Print File Creation Date & Time 
+        // Print file creation date and time
         cout << " ";
         print_time(data.ftCreationTime);
 
@@ -196,21 +209,25 @@ void dir_q()
     FindClose(hFind);
 }
 
+
 int main()
 {
+    // Get the user path
+    string userPath = get_user_path();
+
     //Call dir_a Function & Print Results 
-    cout << "dir /a from C:\\Program Files\\Common Files:" << endl;
-    dir_a();
+    cout << "dir /a from " << userPath << ":" << endl;
+    dir_a(userPath);
     cout << endl;
 
     //Call dir_s Function & Print Results 
-    cout << "dir /s from C:\\Program Files\\Common Files:" << endl;
-    dir_s("C:\\Program Files\\Common Files");
+    cout << "dir /s from " << userPath << ":" << endl;
+    dir_s(userPath);
     cout << endl;
 
     //Call dir_q Function & Print Results 
-    cout << "dir /q from C:\\Users\\Ed\\Desktop\\SysInternalsSuite:" << endl;
-    dir_q();
+    cout << "dir /q from " << userPath << ":" << endl;
+    dir_q(userPath);
     cout << endl;
 
     //Wait for User Input Before Exiting
