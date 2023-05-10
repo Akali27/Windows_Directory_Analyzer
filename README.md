@@ -1,6 +1,6 @@
-# Windows dir in C++
+# Windows dir Command in C++
 
-This is a C++ script that returns the equivalent results of the Windows commands: 
+This is a C++ script that returns the equivalent results of the Windows dir command with the following options: 
 
 dir /a 
 
@@ -22,22 +22,11 @@ Dir Options:
 
 This script will return equivelant results when executed from Visual Studio or when compiled and executed as an app.
 
-### Installing program
+### Using the program
 
-Change the paths of the directories you want to traverse for each of the three functions. 
+Launch from Visual Studio or compile then launch from a Windows terminal. The shell will ask you to specify the directory and it will then run the dir command with all 3 options on the target directory. 
 
-For dir /a: 
-Change string path and under int main ()
-
-for dir /s: 
-Change path under int main() 
-
-for dir /q: 
-Change string path, string file path, and path under int main()
-
-### Executing program
-
-Run the script from Visual Studio or compile it as an app and run it. 
+### Compiling
 
 To compile it, launch Visual Studio's Developer Command Prompt for VS 
 and navigate to the directory with the .cpp file 
