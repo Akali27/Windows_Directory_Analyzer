@@ -19,7 +19,7 @@ Mimic the functionality of the following Windows dir command options:
 
 ### Compiling
 
-To compile it, launch Visual Studio's Developer Command Prompt for VS 
+To compile the app, launch Visual Studio's Developer Command Prompt for VS 
 and navigate to the directory with the .cpp file 
 Enter: cl /EHsc dir_code.cpp
 
