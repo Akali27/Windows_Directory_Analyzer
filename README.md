@@ -1,6 +1,6 @@
 # Windows Directory Analyzer
 
-This C++ program mimics the functionality of the Windows dir command with '/a', '/s', and '/q' options. It retrieves and displays various file and directory attributes from a specified path.
+This C++ program mimics the functionality of the Windows dir command with options '/a', '/s', and '/q' options. It retrieves and displays various file and directory attributes from a specified path.
 
 ## Features
 
