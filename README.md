@@ -17,17 +17,13 @@ Mimic the functionality of the following Windows dir command options:
 - When prompted, enter the path you want to analyze.
 - The program will display the results of the dir /a, dir /s, and dir /q commands for the specified path.
 
+Traverse directories you have permissions for or update the app to add more privileges. 
+
 ### Compiling
 
 To compile the app, launch Visual Studio's Developer Command Prompt for VS 
 and navigate to the directory with the .cpp file 
 Enter: cl /EHsc dir_code.cpp
-
-## Help
-
-Make sure to keep #pragma comment(lib, "advapi32.lib") which links necessary libraries to be able to use GetSecurityDescriptorOwner, LookupAccountSidA, and GetSecurityInfo functions in the dir /q function. 
-
-Traverse directories you have permissions for or update the app to add more privileges. 
 
 ## Acknowledgments
 
