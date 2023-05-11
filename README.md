@@ -1,30 +1,21 @@
-# Windows dir Command in C++
+# Windows Directory Analyzer
 
-This is a C++ script that returns the equivalent results of the Windows dir command with the following options: 
+This C++ program mimics the functionality of the Windows dir command with '/a', '/s', and '/q' options. It retrieves and displays various file and directory attributes from a specified path.
 
-dir /a 
+## Features
 
-dir /s 
+Retrieve and display file and directory attributes in the specified path.
+Mimic the functionality of the following Windows dir command options:
+- /a: Lists all files and directories, including hidden and system files.
+- /s: Lists files in the specified directory and all subdirectories.
+- /q: Displays the owner of the file in addition to the file attributes.
 
-dir /q
+## Usage
 
-## Description
-
-On a Windows terminal, the dir command returns a list of a directory's files and subdirectories. 
-
-Dir Options:
-
-/a: Prints all files and directories, including hidden ones. 
-
-/s: Lists every occurrence of the specified file name within the specified directory and all subdirectories.
-
-/q: Displays file ownership information.
-
-This script will return equivelant results when executed from Visual Studio or when compiled and executed as an app.
-
-### Using the program
-
-Launch from Visual Studio or compile then launch from a Windows terminal. The shell will ask you to specify the directory and it will then run the dir command with all 3 options on the target directory. 
+- Compile the program using a C++ compiler (e.g., Visual Studio, MinGW, etc.) or run it using the Visual Studio debugger. 
+- Run the compiled program.
+- When prompted, enter the path you want to analyze.
+- The program will display the results of the dir /a, dir /s, and dir /q commands for the specified path.
 
 ### Compiling
 
